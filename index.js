@@ -1,5 +1,6 @@
 const mineflayer = require('mineflayer');
 const { pathfinder, Movements, goals } = require('mineflayer-pathfinder');
+const http = require('http'); // Import the HTTP module
 
 // Function to create and connect the bot
 function createBot() {
@@ -106,6 +107,18 @@ function createBot() {
 
   bot.on('disconnect', (reason) => {
     console.log(`Disconnected: ${reason}`);
+  });
+
+  // Create a simple HTTP server
+  const server = http.createServer((req, res) => {
+    res.writeHead(200, { 'Content-Type': 'text/plain' });
+    res.end('Bot is running\n');
+  });
+
+  // Listen on the port specified by the environment or default to 3000
+  const PORT = process.env.PORT || 3000;
+  server.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
   });
 }
 
